@@ -103,7 +103,9 @@ abstract class Filas{
         $retenidos = $filas->map(function($item){ return array_merge($item, ['impuesto' => (string)$item['impuesto'] ]);})
         ->groupBy('impuesto')
         ->map(function($des,$key){
-            return  round($des->sum('impuesto_total'), 3, PHP_ROUND_HALF_EVEN) * 0.50;
+            $imp_total = round((($des->sum('subTotal') - $des->sum('descuento_total')) * $key),2,PHP_ROUND_HALF_UP);
+            //$impuesto =  round($des->sum('impuesto_total'), 2, PHP_ROUND_HALF_UP);
+            return  bcmul($imp_total ,0.50,  4);
         })->sum();
 
         return round($retenidos, 2, PHP_ROUND_HALF_UP);
