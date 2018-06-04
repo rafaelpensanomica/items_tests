@@ -104,7 +104,7 @@ abstract class Filas{
         ->groupBy('impuesto')
         ->map(function($des,$key){
             $imp_total = round((($des->sum('subTotal') - $des->sum('descuento_total')) * $key),2,PHP_ROUND_HALF_UP);
-            //$impuesto =  round($des->sum('impuesto_total'), 2, PHP_ROUND_HALF_UP);
+            
             return  bcmul($imp_total ,0.50,  4);
         })->sum();
 
