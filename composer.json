@@ -1,0 +1,16 @@
+{
+    "description": "Ejemplo Tecnica de redondeo",
+	"name": "Redondeo",
+    "require": {
+        "illuminate/support": "^5.3",
+        "symfony/var-dumper": "^3.1",
+        "fzaninotto/faker": "^1.7",
+        "league/climate": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Redondeo\\": "src/"
+        }
+    }
+
+}
