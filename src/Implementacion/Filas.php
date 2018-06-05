@@ -15,7 +15,7 @@ abstract class Filas{
         $filas = [];
         $faker = Factory::create();
         for ($i=0; $i<= $filasTotales; $i++){
-            $this->filas[] = ['cantidad'=>$faker->numberBetween(1,5), 'precio' =>$faker->randomFloat(4,1,9), 'impuesto' => 0.07, 
+            $this->filas[] = ['cantidad'=>$faker->numberBetween(1,15), 'precio' =>$faker->randomFloat(4,1,15), 'impuesto' => 0.07, 
             'descuento' =>(string) $faker->randomElement($array = array (20,22)) / 100];
         }
         $this->filas =  collect($this->filas);
@@ -46,7 +46,7 @@ abstract class Filas{
         $retenido_impar = round($retenido ,2, PHP_ROUND_HALF_ODD);
         $retenido_par = round($retenido ,2, PHP_ROUND_HALF_EVEN);
         $Totales = round(($subtotal - $descuento + $impuesto) ,2, PHP_ROUND_HALF_UP);
-        $saldos = $Totales - $retenidos; 
+        
 
         // por totales
         $des_total = $this->descuentos($filas);
@@ -54,7 +54,7 @@ abstract class Filas{
         $imp_total = round((($subTotal - $des_total) * 0.07),2,PHP_ROUND_HALF_UP);
         $rete_total =  round(($imp_total / 2),2,PHP_ROUND_HALF_UP);
         $rete_totales = $this->retenidos($filas);
-
+        $saldos = $Totales - $rete_total; 
 
         $padding->label('SubTotal')->result($this->moneyFormat($subTotal));
         
