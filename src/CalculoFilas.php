@@ -17,12 +17,13 @@ class CalculoFilas extends Filas{
             $descuento = round(($item['subTotal'] * $item['descuento']),4, PHP_ROUND_HALF_UP);
             $item['descuento_total'] = $descuento;
             //calculo del impuesto
-            $descuento_total = round($descuento, 3, PHP_ROUND_HALF_UP);
-            $impuesto = ($item['subTotal'] -  $descuento_total) * $item['impuesto'];
+            $descuento_total = round($descuento, 2, PHP_ROUND_HALF_UP);
+            $subtotal1 =  round($item['subTotal'] -  $descuento_total, 2, PHP_ROUND_HALF_UP);
+            $impuesto =  $subtotal1 * $item['impuesto'];
             //redondeo del impuesto
-            $item['impuesto_total'] = round($impuesto,4,PHP_ROUND_HALF_UP);
+            $item['impuesto_total'] = round($impuesto,3,PHP_ROUND_HALF_ODD);
             //este calculo del retenido tiene errores
-            $item['retenido'] = round(bcmul($item['impuesto_total'] , 0.5, 4), 2, PHP_ROUND_HALF_UP);
+            $item['retenido'] = round(bcmul($item['impuesto_total'] , 0.5, 4), 2, PHP_ROUND_HALF_DOWN);
             return $item;
         });
 

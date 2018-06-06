@@ -54,6 +54,7 @@ abstract class Filas{
         $imp_total = round((($subTotal - $des_total) * 0.07),2,PHP_ROUND_HALF_UP);
         $rete_total =  round(($imp_total / 2),2,PHP_ROUND_HALF_UP);
         $rete_totales = $this->retenidos($filas);
+        $impuestos_agrupados = $this->impuestos($filas);
         $saldos = $Totales - $rete_total; 
 
         $padding->label('SubTotal')->result($this->moneyFormat($subTotal));
@@ -63,6 +64,7 @@ abstract class Filas{
         $climate->border('-*-');
         $padding->label('Impuestos')->result($this->moneyFormat($impuestos));
         $padding->label('Impuestos Total')->result('<light_green>'.$imp_total.'</light_green>');
+        $padding->label('Impuestos Total Agrupados')->result('<light_green>'.$impuestos_agrupados.'</light_green>');
         $climate->border('-*-');
         $padding->label('Retenidos linea')->result($this->moneyFormat($retenidos));
         $padding->label('Retenidos impar')->result($retenido_impar);
@@ -109,6 +111,18 @@ abstract class Filas{
         })->sum();
 
         return round($retenidos, 2, PHP_ROUND_HALF_UP);
+    }
+
+    function impuestos($filas){
+        $impuestos = $filas->map(function($item){ return array_merge($item, ['impuesto' => (string)$item['impuesto'] ]);})
+        ->groupBy('impuesto')
+        ->map(function($des,$key){
+            $imp_total = round((($des->sum('subTotal') - $des->sum('descuento_total')) * $key),2,PHP_ROUND_HALF_UP);
+            
+            return  $imp_total;
+        })->sum();
+
+        return round($impuestos, 2, PHP_ROUND_HALF_UP);
     }
 
     abstract protected function hacerCalculos();
