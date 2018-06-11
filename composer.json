@@ -11,6 +11,12 @@
         "psr-4": {
             "Redondeo\\": "src/"
         }
+    },
+    "require-dev": {
+        "behat/behat": "v3.4.*"
+    },
+    "config": {
+        "bin-dir": "bin/"
     }
 
 }
